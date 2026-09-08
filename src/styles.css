@@ -603,3 +603,170 @@ textarea:focus {
     align-items: flex-start;
   }
 }
+
+.flyer-page {
+  min-height: 100vh;
+  background: #3a0018;
+  padding: 1rem;
+}
+
+.flyer-toolbar {
+  max-width: 8.5in;
+  margin: 0 auto 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.flyer-toolbar p {
+  margin: 0;
+  color: #f6d37a;
+}
+
+.flyer {
+  width: 8.5in;
+  height: 11in;
+  max-height: 11in;
+  overflow: hidden;
+  margin: 0 auto;
+  background: var(--maroon);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.42in 0.48in 0.38in;
+  box-sizing: border-box;
+  box-shadow: var(--shadow);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.flyer-logo {
+  width: 1.45in;
+  height: 1.45in;
+  margin-bottom: 0.18in;
+}
+
+.flyer-kicker {
+  margin: 0;
+  color: var(--gold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.flyer h1 {
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 2.05rem;
+  margin: 0.18rem 0 0.35rem;
+  color: var(--white);
+  line-height: 1.15;
+}
+
+.flyer-sub,
+.flyer-pitch,
+.flyer-foot {
+  margin: 0;
+}
+
+.flyer-sub {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.flyer-pitch {
+  margin: 0.45rem 0 0.7rem;
+  max-width: 6.4in;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.flyer-codes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.28in;
+  width: 100%;
+}
+
+.flyer-code {
+  text-decoration: none;
+  background: var(--white);
+  color: var(--maroon);
+  border-radius: 10px;
+  padding: 0.18in 0.12in 0.16in;
+}
+
+.flyer-code img {
+  width: 1.55in;
+  height: 1.55in;
+  margin: 0 auto 0.12in;
+}
+
+.flyer-code strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.flyer-code span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.flyer-foot {
+  margin-top: auto;
+  padding-top: 0.28in;
+  width: 100%;
+  border-top: 4px solid var(--gold);
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body,
+  #root,
+  .flyer-page {
+    background: var(--maroon) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+  }
+
+  .flyer {
+    box-shadow: none;
+    width: 8.5in;
+    height: 11in;
+    max-height: 11in;
+    margin: 0;
+  }
+
+  @page {
+    size: letter portrait;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .flyer {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .flyer-codes {
+    gap: 0.7rem;
+  }
+
+  .flyer-code img {
+    width: min(1.55in, 38vw);
+    height: auto;
+  }
+}
