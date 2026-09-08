@@ -1,48 +1,102 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, Link, Outlet, useLocation } from "react-router-dom";
 import { AuthProvider } from "./auth";
-import Admin from "./pages/Admin";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Users from "./pages/Users";
 
 export default function App() {
   return (
     <AuthProvider>
+      <Layout />
+    </AuthProvider>
+  );
+}
+
+function Layout() {
+  const { pathname, hash } = useLocation();
+  const [open, setOpen] = useState(false);
+  const onRegister = pathname === "/register";
+
+  useEffect(() => {
+    if (hash) {
+      const node = document.getElementById(hash.slice(1));
+      if (node) {
+        node.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+
+  function close() {
+    setOpen(false);
+  }
+
+  return (
+    <>
       <header className="site-header">
-        <NavLink to="/" className="brand">
-          <img src="/assets/logo.png" alt="CMU Cybersecurity Club logo" />
+        <NavLink to="/" className="brand" onClick={close}>
+          <img src="/assets/logo.png" alt="" />
           <span className="brand-copy">
             <small>Central Michigan University</small>
             <strong>Cybersecurity Club</strong>
           </span>
         </NavLink>
-        <nav className="nav-links">
-          <NavLink to="/" end>
+
+        <button
+          className="nav-toggle"
+          type="button"
+          aria-label="Menu"
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav className={open ? "nav-links open" : "nav-links"}>
+          <NavLink to="/" end onClick={close}>
             Home
           </NavLink>
-          <a href="/#about">About</a>
-          <NavLink to="/users">Users</NavLink>
-          <a href="/#community">Community</a>
-          <NavLink to="/register">Register</NavLink>
-          <NavLink to="/admin">Admin</NavLink>
+          <Link to="/#about" onClick={close}>
+            About
+          </Link>
+          <NavLink to="/users" onClick={close}>
+            Officers
+          </NavLink>
+          <Link to="/#community" onClick={close}>
+            Community
+          </Link>
+          <NavLink to="/register" onClick={close}>
+            Register
+          </NavLink>
+          <NavLink to="/admin" onClick={close} className="nav-quiet">
+            Admin
+          </NavLink>
         </nav>
-        <NavLink className="btn btn-gold" to="/register">
-          Join the club
-        </NavLink>
+
+        {onRegister ? (
+          <span className="header-spacer" />
+        ) : (
+          <NavLink className="btn btn-gold header-cta" to="/register" onClick={close}>
+            Join the club
+          </NavLink>
+        )}
       </header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
+
+      <Outlet />
+
       <footer className="site-footer">
         <div>
           <strong>CMU Cybersecurity Club</strong>
-          <div>Open to all Central Michigan University students.</div>
+          <p>Open to every CMU student. No experience required.</p>
         </div>
-        <div>Maroon &amp; gold. Hands-on. All experience levels welcome.</div>
+        <div className="footer-links">
+          <Link to="/register">Register</Link>
+          <Link to="/users">Officers</Link>
+          <a href="https://web.groupme.com/join_group/100711092/qcumGgXOMe">GroupMe</a>
+          <a href="https://discord.gg/d9bRP4jg6k">Discord</a>
+        </div>
       </footer>
-    </AuthProvider>
+    </>
   );
 }

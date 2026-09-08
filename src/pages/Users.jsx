@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiUrl } from "../api";
 
@@ -18,36 +18,47 @@ export default function Users() {
       .catch((err) => setError(err.message));
   }, []);
 
+  const officers = useMemo(
+    () => users.filter((person) => person.role !== "admin"),
+    [users],
+  );
+
   return (
     <main>
       <section className="page-hero">
-        <p className="eyebrow">Leadership</p>
-        <h1>Club users &amp; officers</h1>
+        <p className="eyebrow">Directory</p>
+        <h1>Officers</h1>
         <p className="lede">
-          Advisor, president, vice president, treasurer, social media, and admin
-          accounts for the Cybersecurity Club.
+          Advisor, president, vice president, treasurer, and social media roles.
         </p>
       </section>
 
-      <section className="form-shell users-shell">
+      <section className="panel">
         {error ? <div className="error">{error}</div> : null}
-        {users.length === 0 && !error ? (
-          <p className="muted">No users have been added yet.</p>
-        ) : (
+
+        {officers.length ? (
           <div className="user-grid">
-            {users.map((person) => (
-              <article className="card" key={person.id}>
+            {officers.map((person) => (
+              <article className="card person-card" key={person.id}>
                 <p className="role-chip">{person.roleLabel}</p>
                 <h3>
                   {person.firstName} {person.lastName}
                 </h3>
-                <p className="muted">{person.email}</p>
+                <p>{person.email}</p>
               </article>
             ))}
           </div>
+        ) : (
+          !error && (
+            <p className="empty-note">
+              No officers have been added yet. An admin can add them from the
+              admin page.
+            </p>
+          )
         )}
-        <p className="admin-link">
-          <Link to="/admin">Admin sign in</Link>
+
+        <p className="panel-note">
+          Need to manage accounts? <Link to="/admin">Sign in as admin</Link>
         </p>
       </section>
     </main>

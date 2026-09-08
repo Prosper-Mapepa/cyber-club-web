@@ -82,7 +82,7 @@ export default function Admin() {
       }
       setForm(emptyForm);
       await loadUsers();
-      setStatus({ type: "success", message: `${data.user.roleLabel} account added.` });
+      setStatus({ type: "success", message: `${data.user.roleLabel} added.` });
     } catch (err) {
       setStatus({ type: "error", message: err.message });
     } finally {
@@ -96,31 +96,31 @@ export default function Admin() {
         <section className="page-hero">
           <p className="eyebrow">Admin</p>
           <h1>Sign in</h1>
-          <p className="lede">Manage club users and officer roles.</p>
+          <p className="lede">For officers who manage the directory.</p>
         </section>
-        <section className="form-shell">
+        <section className="panel panel-login">
           {status.message ? <div className="error">{status.message}</div> : null}
           <form onSubmit={handleLogin}>
-            <div className="form-grid">
-              <label className="full">
-                Email
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  required
-                />
-              </label>
-              <label className="full">
-                Password
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  required
-                />
-              </label>
-            </div>
+            <label>
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="username"
+                required
+              />
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="current-password"
+                required
+              />
+            </label>
             <div className="form-actions">
               <button className="btn btn-gold" type="submit" disabled={busy}>
                 {busy ? "Signing in..." : "Sign in"}
@@ -135,107 +135,119 @@ export default function Admin() {
   return (
     <main>
       <section className="page-hero">
-        <p className="eyebrow">Admin</p>
-        <h1>Users</h1>
-        <p className="lede">
-          Signed in as {user.firstName} {user.lastName}. Add officers and other
-          admins below.
-        </p>
+        <div className="page-hero-row">
+          <div>
+            <p className="eyebrow">Admin</p>
+            <h1>Directory</h1>
+            <p className="lede">
+              Signed in as {user.firstName} {user.lastName}.
+            </p>
+          </div>
+          <button className="btn btn-outline" type="button" onClick={logout}>
+            Sign out
+          </button>
+        </div>
       </section>
 
-      <section className="form-shell users-shell">
+      <section className="admin-layout">
         {status.message ? (
           <div className={status.type === "success" ? "success" : "error"}>
             {status.message}
           </div>
         ) : null}
 
-        <h2>All users</h2>
-        <div className="table-wrap">
-          <table className="users-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((person) => (
-                <tr key={person.id}>
-                  <td>
-                    {person.firstName} {person.lastName}
-                  </td>
-                  <td>{person.email}</td>
-                  <td>{person.roleLabel}</td>
+        <div className="panel">
+          <h2>People</h2>
+          <div className="table-wrap">
+            <table className="users-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {users.map((person) => (
+                  <tr key={person.id}>
+                    <td>
+                      {person.firstName} {person.lastName}
+                    </td>
+                    <td>{person.email}</td>
+                    <td>
+                      <span className="role-chip">{person.roleLabel}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <h2>Add user</h2>
-        <form onSubmit={handleCreate}>
-          <div className="form-grid">
-            <label>
-              First name
-              <input
-                name="firstName"
-                value={form.firstName}
-                onChange={updateField}
-                required
-              />
-            </label>
-            <label>
-              Last name
-              <input
-                name="lastName"
-                value={form.lastName}
-                onChange={updateField}
-                required
-              />
-            </label>
-            <label>
-              Email
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={updateField}
-                required
-              />
-            </label>
-            <label>
-              Password
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={updateField}
-                minLength="8"
-                required
-              />
-            </label>
-            <label className="full">
-              Role
-              <select name="role" value={form.role} onChange={updateField}>
-                {ROLES.map((role) => (
-                  <option key={role.value} value={role.value}>
-                    {role.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <div className="form-actions">
-            <button className="btn btn-gold" type="submit" disabled={busy}>
-              {busy ? "Saving..." : "Add user"}
-            </button>
-            <button className="btn btn-outline dark" type="button" onClick={logout}>
-              Sign out
-            </button>
-          </div>
-        </form>
+        <div className="panel">
+          <h2>Add someone</h2>
+          <p className="hint">
+            Choose a role, then share the password with that person privately.
+          </p>
+          <form onSubmit={handleCreate}>
+            <div className="form-grid">
+              <label>
+                First name
+                <input
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={updateField}
+                  required
+                />
+              </label>
+              <label>
+                Last name
+                <input
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={updateField}
+                  required
+                />
+              </label>
+              <label className="full">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={updateField}
+                  required
+                />
+              </label>
+              <label>
+                Password
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={updateField}
+                  minLength="8"
+                  required
+                />
+              </label>
+              <label>
+                Role
+                <select name="role" value={form.role} onChange={updateField}>
+                  {ROLES.map((role) => (
+                    <option key={role.value} value={role.value}>
+                      {role.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div className="form-actions">
+              <button className="btn btn-gold" type="submit" disabled={busy}>
+                {busy ? "Saving..." : "Add user"}
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
     </main>
   );

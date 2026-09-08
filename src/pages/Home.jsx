@@ -5,19 +5,19 @@ import { apiUrl } from "../api";
 const activities = [
   {
     title: "Meetings",
-    body: "Weekly gatherings for discussion, demos, and skill-building with other CMU students.",
+    body: "Weekly sessions for demos, discussion, and practice with other students.",
   },
   {
     title: "CTF competitions",
-    body: "Practice Capture the Flag challenges as a team and compete with peers.",
+    body: "Team up for Capture the Flag challenges and learn by solving problems.",
   },
   {
     title: "Guest speakers",
-    body: "Hear directly from professionals working in cybersecurity.",
+    body: "Hear from people working in cybersecurity.",
   },
   {
     title: "Outreach",
-    body: "Share what we learn with campus and the broader community.",
+    body: "Share skills with campus and the wider community.",
   },
 ];
 
@@ -32,6 +32,7 @@ export default function Home() {
   }, []);
 
   const officers = users.filter((person) => person.role !== "admin");
+
   return (
     <main>
       <section className="hero">
@@ -39,17 +40,15 @@ export default function Home() {
           <p className="eyebrow">Central Michigan University</p>
           <h1>Learn cybersecurity by doing.</h1>
           <p>
-            The Cybersecurity Club is open to all CMU students, regardless of
-            experience level. Our goal is to expand our knowledge of
-            cybersecurity through hands-on practice and direct interaction with
-            professionals in the field.
+            Open to all CMU students, at any experience level. We learn through
+            hands-on practice and conversations with people in the field.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-gold" to="/register">
-              Student registration
+              Register
             </Link>
             <a className="btn btn-outline" href="#community">
-              Join GroupMe &amp; Discord
+              GroupMe &amp; Discord
             </a>
           </div>
         </div>
@@ -59,64 +58,77 @@ export default function Home() {
       </section>
 
       <section className="section" id="about">
-        <h2>About the club</h2>
-        <p className="muted">
-          The Cyber Security Club is a community that encourages social,
-          academic, and professional growth among students interested in
-          cybersecurity. Members will engage in meetings, Capture the Flag (CTF)
-          competitions, outreach, and guest speaker events. In addition, members
-          will practice skills and techniques (e.g., Linux, Ethical Hacking,
-          Defensive Security, etc.) relevant to the industry.
-        </p>
+        <div className="section-intro">
+          <h2>What we do</h2>
+          <p className="muted">
+            The Cyber Security Club is a community for social, academic, and
+            professional growth. Members take part in meetings, Capture the Flag
+            (CTF) competitions, outreach, and guest speaker events, and practice
+            skills used in the industry — Linux, ethical hacking, defensive
+            security, and more.
+          </p>
+        </div>
         <div className="grid">
           {activities.map((item) => (
             <article className="card" key={item.title}>
               <h3>{item.title}</h3>
-              <p className="muted">{item.body}</p>
+              <p>{item.body}</p>
             </article>
           ))}
         </div>
       </section>
 
-      {officers.length > 0 ? (
-        <section className="section" id="users">
-          <h2>Leadership</h2>
-          <p className="muted">Meet the officers who run the club.</p>
+      <section className="section alt" id="officers">
+        <div className="section-intro">
+          <h2>Officers</h2>
+          <p className="muted">
+            {officers.length
+              ? "The students and advisors who run the club."
+              : "Officer profiles will appear here as they are added."}
+          </p>
+        </div>
+        {officers.length ? (
           <div className="user-grid">
             {officers.map((person) => (
-              <article className="card" key={person.id}>
+              <article className="card person-card" key={person.id}>
                 <p className="role-chip">{person.roleLabel}</p>
                 <h3>
                   {person.firstName} {person.lastName}
                 </h3>
-                <p className="muted">{person.email}</p>
+                <p>{person.email}</p>
               </article>
             ))}
           </div>
-          <p className="admin-link">
-            <Link to="/users">View all users</Link>
+        ) : (
+          <p className="empty-note">
+            No officers listed yet.{" "}
+            <Link to="/users">View the full directory</Link>
           </p>
-        </section>
-      ) : null}
+        )}
+      </section>
 
-      <section className="section alt" id="community">
-        <h2>Stay in the loop</h2>
-        <p className="muted">
-          Please join our GroupMe for announcements. We also have a Discord for
-          chat, questions, and practice sessions.
-        </p>
+      <section className="section" id="community">
+        <div className="section-intro">
+          <h2>Stay in the loop</h2>
+          <p className="muted">
+            Announcements go to GroupMe. Discord is for questions, hangouts, and
+            CTF practice.
+          </p>
+        </div>
         <div className="community">
           <a
             href="https://web.groupme.com/join_group/100711092/qcumGgXOMe"
             target="_blank"
             rel="noreferrer"
           >
+            <p className="eyebrow">Chat</p>
             <h3>GroupMe</h3>
-            <p>Announcements, meeting reminders, and club updates.</p>
+            <p>Meeting reminders and club updates.</p>
           </a>
           <a href="https://discord.gg/d9bRP4jg6k" target="_blank" rel="noreferrer">
+            <p className="eyebrow">Practice</p>
             <h3>Discord</h3>
-            <p>Hang out, ask questions, and team up for CTFs.</p>
+            <p>Ask questions and team up for CTFs.</p>
           </a>
         </div>
       </section>

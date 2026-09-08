@@ -79,112 +79,142 @@ export default function Register() {
   return (
     <main>
       <section className="page-hero">
-        <p className="eyebrow">Student portal</p>
-        <h1>Register with the club</h1>
+        <p className="eyebrow">Join</p>
+        <h1>Register</h1>
         <p className="lede">
-          Open to all CMU students. No prior cybersecurity experience required.
+          Open to all CMU students. Takes about a minute.
         </p>
       </section>
 
-      <section className="form-shell">
+      <section className="panel panel-narrow">
         {status.message ? (
           <div className={status.type === "success" ? "success" : "error"}>
             {status.message}
+            {status.type === "success" ? (
+              <div className="hero-actions" style={{ marginTop: "0.9rem" }}>
+                <a
+                  className="btn btn-gold"
+                  href="https://web.groupme.com/join_group/100711092/qcumGgXOMe"
+                >
+                  Open GroupMe
+                </a>
+                <a className="btn btn-outline dark" href="https://discord.gg/d9bRP4jg6k">
+                  Open Discord
+                </a>
+              </div>
+            ) : null}
           </div>
         ) : null}
 
         <form onSubmit={handleSubmit}>
-          <div className="form-grid">
-            <label>
-              First name
-              <input
-                name="firstName"
-                value={form.firstName}
-                onChange={updateField}
-                required
-              />
-            </label>
-            <label>
-              Last name
-              <input
-                name="lastName"
-                value={form.lastName}
-                onChange={updateField}
-                required
-              />
-            </label>
-            <label className="full">
-              CMU email
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={updateField}
-                placeholder="chippewa@cmich.edu"
-                required
-              />
-            </label>
-            <label>
-              Major
-              <input
-                name="major"
-                value={form.major}
-                onChange={updateField}
-                required
-              />
-            </label>
-            <label>
-              Class year
-              <select
-                name="classYear"
-                value={form.classYear}
-                onChange={updateField}
-              >
-                <option>Freshman</option>
-                <option>Sophomore</option>
-                <option>Junior</option>
-                <option>Senior</option>
-                <option>Graduate</option>
-              </select>
-            </label>
-            <label>
-              Experience
-              <select
-                name="experienceLevel"
-                value={form.experienceLevel}
-                onChange={updateField}
-              >
-                <option>Beginner</option>
-                <option>Intermediate</option>
-                <option>Advanced</option>
-              </select>
-            </label>
-            <div className="full">
-              <p>Interests</p>
-              <div className="checks">
-                {INTERESTS.map((interest) => (
-                  <label key={interest}>
-                    <input
-                      type="checkbox"
-                      checked={form.interests.includes(interest)}
-                      onChange={() => toggleInterest(interest)}
-                    />
-                    {interest}
-                  </label>
-                ))}
-              </div>
+          <fieldset>
+            <legend>Your information</legend>
+            <div className="form-grid">
+              <label>
+                First name
+                <input
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={updateField}
+                  autoComplete="given-name"
+                  required
+                />
+              </label>
+              <label>
+                Last name
+                <input
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={updateField}
+                  autoComplete="family-name"
+                  required
+                />
+              </label>
+              <label className="full">
+                CMU email
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={updateField}
+                  placeholder="chippewa@cmich.edu"
+                  autoComplete="email"
+                  required
+                />
+              </label>
             </div>
-            <label className="full">
-              Anything we should know?
-              <textarea
-                name="notes"
-                rows="4"
-                maxLength="500"
-                value={form.notes}
-                onChange={updateField}
-              />
-            </label>
-          </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>At CMU</legend>
+            <div className="form-grid">
+              <label>
+                Major
+                <input
+                  name="major"
+                  value={form.major}
+                  onChange={updateField}
+                  required
+                />
+              </label>
+              <label>
+                Class year
+                <select
+                  name="classYear"
+                  value={form.classYear}
+                  onChange={updateField}
+                >
+                  <option>Freshman</option>
+                  <option>Sophomore</option>
+                  <option>Junior</option>
+                  <option>Senior</option>
+                  <option>Graduate</option>
+                </select>
+              </label>
+              <label className="full">
+                Cybersecurity experience
+                <select
+                  name="experienceLevel"
+                  value={form.experienceLevel}
+                  onChange={updateField}
+                >
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Interests</legend>
+            <p className="hint">Optional. Pick anything you want to try.</p>
+            <div className="checks">
+              {INTERESTS.map((interest) => (
+                <label key={interest}>
+                  <input
+                    type="checkbox"
+                    checked={form.interests.includes(interest)}
+                    onChange={() => toggleInterest(interest)}
+                  />
+                  {interest}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <label className="full">
+            Anything else?
+            <textarea
+              name="notes"
+              rows="3"
+              maxLength="500"
+              value={form.notes}
+              onChange={updateField}
+              placeholder="Optional"
+            />
+          </label>
+
           <div className="form-actions">
             <button className="btn btn-gold" type="submit" disabled={submitting}>
               {submitting ? "Submitting..." : "Submit registration"}
