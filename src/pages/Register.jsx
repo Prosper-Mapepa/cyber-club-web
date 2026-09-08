@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { apiUrl } from "../api";
+import { DISCORD_URL, GROUPME_URL, INSTAGRAM_URL } from "../links";
 
 const INTERESTS = [
   "CTF Competitions",
@@ -63,7 +64,7 @@ export default function Register() {
       setStatus({
         type: "success",
         message:
-          "You're registered. Join GroupMe and Discord so you don't miss meetings.",
+          "You're registered. Join GroupMe, Discord, and Instagram so you don't miss updates.",
       });
       setForm(initialForm);
     } catch (error) {
@@ -92,14 +93,14 @@ export default function Register() {
             {status.message}
             {status.type === "success" ? (
               <div className="hero-actions" style={{ marginTop: "0.9rem" }}>
-                <a
-                  className="btn btn-gold"
-                  href="https://web.groupme.com/join_group/100711092/qcumGgXOMe"
-                >
+                <a className="btn btn-gold" href={GROUPME_URL}>
                   Open GroupMe
                 </a>
-                <a className="btn btn-outline dark" href="https://discord.gg/d9bRP4jg6k">
+                <a className="btn btn-outline dark" href={DISCORD_URL}>
                   Open Discord
+                </a>
+                <a className="btn btn-outline dark" href={INSTAGRAM_URL}>
+                  Open Instagram
                 </a>
               </div>
             ) : null}

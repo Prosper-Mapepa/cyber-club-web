@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, Outlet, useLocation } from "react-router-dom";
 import { AuthProvider } from "./auth";
+import { DISCORD_URL, GROUPME_URL, INSTAGRAM_URL } from "./links";
 
 export default function App() {
   return (
@@ -93,8 +94,15 @@ function Layout() {
         <div className="footer-links">
           <Link to="/register">Register</Link>
           <Link to="/users">Officers</Link>
-          <a href="https://web.groupme.com/join_group/100711092/qcumGgXOMe">GroupMe</a>
-          <a href="https://discord.gg/d9bRP4jg6k">Discord</a>
+          <a href={GROUPME_URL} target="_blank" rel="noreferrer">
+            GroupMe
+          </a>
+          <a href={DISCORD_URL} target="_blank" rel="noreferrer">
+            Discord
+          </a>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+            Instagram
+          </a>
         </div>
       </footer>
     </>

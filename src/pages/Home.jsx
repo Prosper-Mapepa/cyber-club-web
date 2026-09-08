@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { apiUrl } from "../api";
+import { DISCORD_URL, GROUPME_URL, INSTAGRAM_URL } from "../links";
 
 const activities = [
   {
@@ -111,24 +112,25 @@ export default function Home() {
         <div className="section-intro">
           <h2>Stay in the loop</h2>
           <p className="muted">
-            Announcements go to GroupMe. Discord is for questions, hangouts, and
-            CTF practice.
+            Announcements go to GroupMe. Discord is for questions and CTF
+            practice. Follow us on Instagram at @cyber.cmu.
           </p>
         </div>
         <div className="community">
-          <a
-            href="https://web.groupme.com/join_group/100711092/qcumGgXOMe"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={GROUPME_URL} target="_blank" rel="noreferrer">
             <p className="eyebrow">Chat</p>
             <h3>GroupMe</h3>
             <p>Meeting reminders and club updates.</p>
           </a>
-          <a href="https://discord.gg/d9bRP4jg6k" target="_blank" rel="noreferrer">
+          <a href={DISCORD_URL} target="_blank" rel="noreferrer">
             <p className="eyebrow">Practice</p>
             <h3>Discord</h3>
             <p>Ask questions and team up for CTFs.</p>
+          </a>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+            <p className="eyebrow">Photos</p>
+            <h3>Instagram</h3>
+            <p>Follow @cyber.cmu for club posts.</p>
           </a>
         </div>
       </section>
