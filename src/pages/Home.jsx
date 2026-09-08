@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { apiUrl } from "../api";
 
 const activities = [
   {
@@ -20,6 +22,16 @@ const activities = [
 ];
 
 export default function Home() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(apiUrl("/api/users"))
+      .then((response) => response.json())
+      .then((data) => setUsers(data.users || []))
+      .catch(() => setUsers([]));
+  }, []);
+
+  const officers = users.filter((person) => person.role !== "admin");
   return (
     <main>
       <section className="hero">
@@ -42,7 +54,7 @@ export default function Home() {
           </div>
         </div>
         <div className="seal-wrap">
-          <img src="/seal.svg" alt="Cybersecurity Club seal" />
+          <img src="/assets/logo.png" alt="Cybersecurity Club logo" />
         </div>
       </section>
 
@@ -65,6 +77,27 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {officers.length > 0 ? (
+        <section className="section" id="users">
+          <h2>Leadership</h2>
+          <p className="muted">Meet the officers who run the club.</p>
+          <div className="user-grid">
+            {officers.map((person) => (
+              <article className="card" key={person.id}>
+                <p className="role-chip">{person.roleLabel}</p>
+                <h3>
+                  {person.firstName} {person.lastName}
+                </h3>
+                <p className="muted">{person.email}</p>
+              </article>
+            ))}
+          </div>
+          <p className="admin-link">
+            <Link to="/users">View all users</Link>
+          </p>
+        </section>
+      ) : null}
 
       <section className="section alt" id="community">
         <h2>Stay in the loop</h2>

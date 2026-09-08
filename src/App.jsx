@@ -1,13 +1,16 @@
 import { NavLink, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./auth";
+import Admin from "./pages/Admin";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import Users from "./pages/Users";
 
 export default function App() {
   return (
-    <>
+    <AuthProvider>
       <header className="site-header">
         <NavLink to="/" className="brand">
-          <img src="/seal.svg" alt="CMU Cybersecurity Club seal" />
+          <img src="/assets/logo.png" alt="CMU Cybersecurity Club logo" />
           <span className="brand-copy">
             <small>Central Michigan University</small>
             <strong>Cybersecurity Club</strong>
@@ -18,8 +21,10 @@ export default function App() {
             Home
           </NavLink>
           <a href="/#about">About</a>
+          <NavLink to="/users">Users</NavLink>
           <a href="/#community">Community</a>
           <NavLink to="/register">Register</NavLink>
+          <NavLink to="/admin">Admin</NavLink>
         </nav>
         <NavLink className="btn btn-gold" to="/register">
           Join the club
@@ -28,6 +33,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <footer className="site-footer">
         <div>
@@ -36,6 +43,6 @@ export default function App() {
         </div>
         <div>Maroon &amp; gold. Hands-on. All experience levels welcome.</div>
       </footer>
-    </>
+    </AuthProvider>
   );
 }
