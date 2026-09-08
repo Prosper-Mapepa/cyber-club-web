@@ -5,22 +5,52 @@ import { DISCORD_URL, GROUPME_URL, INSTAGRAM_URL } from "../links";
 
 const activities = [
   {
+    tag: "01",
     title: "Meetings",
     body: "Weekly sessions for demos, discussion, and practice with other students.",
   },
   {
+    tag: "02",
     title: "CTF competitions",
     body: "Team up for Capture the Flag challenges and learn by solving problems.",
   },
   {
+    tag: "03",
     title: "Guest speakers",
     body: "Hear from people working in cybersecurity.",
   },
   {
+    tag: "04",
     title: "Outreach",
     body: "Share skills with campus and the wider community.",
   },
 ];
+
+const steps = [
+  {
+    n: "1",
+    title: "Register",
+    body: "Tell us who you are. Takes about a minute.",
+    to: "/register",
+    label: "Open form",
+  },
+  {
+    n: "2",
+    title: "Join chat",
+    body: "GroupMe for announcements. Discord for questions and CTFs.",
+    to: "#community",
+    label: "See links",
+  },
+  {
+    n: "3",
+    title: "Show up",
+    body: "Come to a meeting. Beginners are expected, not the exception.",
+    to: "#about",
+    label: "What we do",
+  },
+];
+
+const binaries = ["01001000", "SEC", "0xCMU", "CTF", "101101", "ROOT", "SSH", "0110"];
 
 export default function Home() {
   const [users, setUsers] = useState([]);
@@ -37,28 +67,94 @@ export default function Home() {
   return (
     <main>
       <section className="hero">
-        <div>
+        <div className="cyber-field" aria-hidden="true">
+          <svg className="cyber-net" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="net" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#ffc82e" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#ffc82e" stopOpacity="0.08" />
+              </linearGradient>
+            </defs>
+            <g fill="none" stroke="url(#net)" strokeWidth="1">
+              <path className="net-line" d="M40 80 L180 140 L320 70 L480 160 L640 90 L760 150" />
+              <path className="net-line delay" d="M60 320 L200 260 L360 340 L520 240 L700 310" />
+              <path className="net-line" d="M180 140 L200 260 L360 340 L480 160" />
+              <path className="net-line delay" d="M320 70 L360 340 L640 90" />
+            </g>
+            <g fill="#ffc82e">
+              <circle className="net-node" cx="180" cy="140" r="3.5" />
+              <circle className="net-node d2" cx="320" cy="70" r="3" />
+              <circle className="net-node d3" cx="480" cy="160" r="4" />
+              <circle className="net-node d2" cx="200" cy="260" r="3" />
+              <circle className="net-node" cx="360" cy="340" r="3.5" />
+              <circle className="net-node d3" cx="640" cy="90" r="3" />
+              <circle className="net-node d2" cx="520" cy="240" r="3" />
+            </g>
+          </svg>
+          <div className="scanline" />
+          <div className="binary-rain">
+            {binaries.map((token, index) => (
+              <span key={token} style={{ animationDelay: `${index * 1.1}s`, left: `${8 + index * 12}%` }}>
+                {token}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="hero-copy">
           <p className="eyebrow">Central Michigan University</p>
           <h1>Learn cybersecurity by doing.</h1>
+          <p className="terminal-line">
+            <span className="prompt">guest@cmu:~$</span>{" "}
+            <span className="typed">practice --linux --ctf --defense</span>
+          </p>
           <p>
-            Open to all CMU students, at any experience level. We learn through
-            hands-on practice and conversations with people in the field.
+            Open to all CMU students. Register, join chat, then come to a
+            meeting — no prior experience needed.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-gold" to="/register">
-              Register
+              Register now
             </Link>
-            <a className="btn btn-outline" href="#community">
-              GroupMe &amp; Discord
+            <a className="btn btn-outline" href="#join">
+              How to join
             </a>
           </div>
         </div>
+
         <div className="seal-wrap">
+          <div className="radar" aria-hidden="true" />
           <img src="/assets/logo.png" alt="Cybersecurity Club logo" />
         </div>
       </section>
 
-      <section className="section" id="about">
+      <section className="section" id="join">
+        <div className="section-intro">
+          <h2>Join in three steps</h2>
+          <p className="muted">Start here if you are new. You can do this today.</p>
+        </div>
+        <div className="steps">
+          {steps.map((step) =>
+            step.to.startsWith("#") ? (
+              <a className="step-card" href={step.to} key={step.n}>
+                <span className="step-n">{step.n}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+                <span className="step-link">{step.label}</span>
+              </a>
+            ) : (
+              <Link className="step-card" to={step.to} key={step.n}>
+                <span className="step-n">{step.n}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+                <span className="step-link">{step.label}</span>
+              </Link>
+            ),
+          )}
+        </div>
+      </section>
+
+      <section className="section alt" id="about">
         <div className="section-intro">
           <h2>What we do</h2>
           <p className="muted">
@@ -72,6 +168,7 @@ export default function Home() {
         <div className="grid">
           {activities.map((item) => (
             <article className="card" key={item.title}>
+              <p className="card-tag">{item.tag}</p>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
             </article>
@@ -79,7 +176,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section alt" id="officers">
+      <section className="section" id="officers">
         <div className="section-intro">
           <h2>Officers</h2>
           <p className="muted">
@@ -108,7 +205,7 @@ export default function Home() {
         )}
       </section>
 
-      <section className="section" id="community">
+      <section className="section alt" id="community">
         <div className="section-intro">
           <h2>Stay in the loop</h2>
           <p className="muted">
